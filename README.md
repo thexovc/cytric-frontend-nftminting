@@ -79,9 +79,9 @@ The backend code for this project can be found here: [cytric-nftminiting-backend
 
 ## Video Walkthroughs
 
-- App Demo: [https://www.loom.com/share/5fb3270a11c24213b62259da6252e003?sid=36ccdf72-4149-41fb-a1b6-cf927351173f]
-- Frontend Codebase Walkthrough: [https://www.loom.com/share/a77533cf1d444b9d9405251635bd3395?sid=51180dd2-cb10-47c0-a3fe-c2029ba4cb84]
-- Backend Codebase Walkthrough: [https://www.loom.com/share/f29372f62f4d4f008528770ada3b9d7f?sid=75ec5631-2e05-41ce-add9-cb6c4abe562a]
+- App Demo: [App Overview](https://www.loom.com/share/5fb3270a11c24213b62259da6252e003?sid=36ccdf72-4149-41fb-a1b6-cf927351173f)
+- Frontend Codebase Walkthrough: [Frontend Overview](https://www.loom.com/share/a77533cf1d444b9d9405251635bd3395?sid=51180dd2-cb10-47c0-a3fe-c2029ba4cb84)
+- Backend Codebase Walkthrough: [Backend Overview](https://www.loom.com/share/f29372f62f4d4f008528770ada3b9d7f?sid=75ec5631-2e05-41ce-add9-cb6c4abe562a)
 
 ## Environment Variables
 
