@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useQueryClient } from "@tanstack/react-query";
 
 import assets from '../../../public/assets';
 import Image from 'next/image';
@@ -40,6 +41,7 @@ export default function MintForm() {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const { isConnected, address } = useAccount();
+    const queryClient = useQueryClient();
 
     const [mintedNFT, setMintedNFT] = useState<{
         tokenId: number;
@@ -98,6 +100,9 @@ export default function MintForm() {
 
             setMintedNFT({ ...receipt, contractAddress: `${process.env.NEXT_PUBLIC_MINT_CONTRACT_ADDRESS}` });
             setShowSuccessModal(true);
+
+            // Invalidate user gallery query to refresh the data
+            await queryClient.invalidateQueries({ queryKey: ["userGallery"] });
 
             // Reset form after successful mint
             reset();
