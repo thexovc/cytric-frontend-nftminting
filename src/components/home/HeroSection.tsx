@@ -6,9 +6,8 @@ import Link from 'next/link';
 
 export default function HeroSection() {
 
-
     return (
-        <div className="relative z-10 container mx-auto px-4 py-10">
+        <div className="relative z-10 container mx-auto px-4 py-20">
             <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-20">
                 {/* Hero content - centered */}
                 <div className="text-center space-y-8 md:space-y-10 max-w-4xl">

@@ -25,7 +25,7 @@ export default function NFTCard({
     return (
         <div onClick={handleSelect} className={`group relative backdrop-blur-sm border border-[#1F2937] hover:border-[#10B981] cursor-pointer rounded-xl overflow-hidden hover:scale-[1.02] ${className}`}>
             {/* NFT Image */}
-            <div className="relative aspect-[16/9] overflow-hidden bg-gray-800">
+            <div className="relative aspect-[16/9] overflow-hidden bg-[#372AAC]">
                 {imageUrl ? (
                     <Image
                         src={imageUrl}
@@ -42,7 +42,7 @@ export default function NFTCard({
                 ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
                         <Image
-                            src={assets.nft1}
+                            src={assets.nft2}
                             alt="NFT Placeholder"
                             className="w-16 h-16 opacity-50"
                         />
