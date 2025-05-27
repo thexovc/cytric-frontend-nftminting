@@ -198,7 +198,7 @@ export default function MintForm() {
                             </>
                         ) : (
                             <>
-                                <Image src={assets.logo} alt="logo" width={20} height={20} color='white' />
+                                <Image src={assets.whitcube} alt="logo" width={20} height={20} color='white' />
                                 Mint NFT
                             </>
                         )}
