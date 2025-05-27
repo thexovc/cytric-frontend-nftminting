@@ -6,6 +6,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono); */
+  --color-primary-pink: #EC4899;
+  --color-primary-purple: #8B5CF6;
 }
 
 

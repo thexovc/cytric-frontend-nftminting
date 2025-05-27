@@ -25,16 +25,6 @@ export default function RootLayout({
 }>) {
 
 
-  const config = getDefaultConfig({
-    appName: 'Nft-Minting',
-    projectId: `${process.env.NEXT_PUBLIC_PROJECT_ID}`,
-    chains: [sepolia],
-    ssr: true,
-  });
-
-  const queryClient = new QueryClient();
-
-
   return (
     <DappProvider>
       <html lang="en">
