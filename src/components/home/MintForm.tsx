@@ -94,7 +94,7 @@ export default function MintForm() {
             const mockNFTData = {
                 name: data.name,
                 description: data.description,
-                logoUrl: data.logoUrl,
+                image: data.logoUrl,
                 userWalletAddress: String(address)
             };
 
@@ -108,7 +108,7 @@ export default function MintForm() {
             reset();
         } catch (error) {
             console.error('Error minting NFT:', error);
-            alert('Error minting NFT. Please try again.');
+            toast.error('Error minting NFT. Please try again.');
         } finally {
             setIsLoading(false);
         }

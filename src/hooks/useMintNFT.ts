@@ -56,7 +56,7 @@ export function useMintNFTHandler() {
       }
 
       // 2. Use temporary metadata URL
-      const placeholderUrl = `https://yourdomain.com/metadata/${tokenId}?status=pending`;
+      const placeholderUrl = `${process.env.NEXT_PUBLIC_BACKEND_API_KEY}/nft/getById/${tokenId}`;
 
       // 3. Mint NFT on-chain
       const txHash = await writeContractAsync({
@@ -79,9 +79,10 @@ export function useMintNFTHandler() {
 
       // 5. Store metadata in backend
       const response = await storeMetadata({
+        nftId: Number(tokenId),
         name: metadata.name,
         description: metadata.description,
-        logoUrl: metadata.logoUrl,
+        image: metadata.image,
         userWalletAddress: metadata.userWalletAddress,
       });
 
@@ -90,7 +91,7 @@ export function useMintNFTHandler() {
         hash: txHash,
         name: metadata.name,
         description: metadata.description,
-        imageUrl: metadata.logoUrl,
+        image: metadata.image,
         metadataUrl: response.data.metadataUrl,
       };
     } catch (err: any) {
