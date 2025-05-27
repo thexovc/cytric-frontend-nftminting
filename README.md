@@ -11,6 +11,10 @@ A modern web application for minting and managing NFTs, built with Next.js and T
 
 The backend code for this project can be found here: [cytric-nftminiting-backend](https://github.com/thexovc/cytric-nftminiting-backend)
 
+## Backend Documentation
+
+The backend API documentation can be found here: [API Documentation](https://daniel-cytric-api.up.railway.app/docs)
+
 ## API Routes
 
 ### NFT Endpoints
