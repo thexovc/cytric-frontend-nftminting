@@ -39,7 +39,7 @@ export function useMintNFTHandler() {
       // 1. Generate unique token ID
       let tokenId = generateTokenId();
       let exists = await publicClient.readContract({
-        address: MINT_CONTRACT_ADDRESS,
+        address: `${MINT_CONTRACT_ADDRESS}` as any,
         abi: mintingABI,
         functionName: "checkId",
         args: [BigInt(tokenId)],
@@ -48,7 +48,7 @@ export function useMintNFTHandler() {
       while (exists) {
         tokenId = generateTokenId();
         exists = await publicClient.readContract({
-          address: MINT_CONTRACT_ADDRESS,
+          address: `${MINT_CONTRACT_ADDRESS}` as any,
           abi: mintingABI,
           functionName: "checkId",
           args: [BigInt(tokenId)],
@@ -60,7 +60,7 @@ export function useMintNFTHandler() {
 
       // 3. Mint NFT on-chain
       const txHash = await writeContractAsync({
-        address: MINT_CONTRACT_ADDRESS,
+        address: `${MINT_CONTRACT_ADDRESS}` as any,
         abi: mintingABI,
         functionName: "mint",
         args: [BigInt(tokenId), placeholderUrl],
