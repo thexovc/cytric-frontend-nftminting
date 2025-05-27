@@ -92,13 +92,15 @@ The backend API documentation can be found here: [API Documentation](https://dan
 The following environment variables are required to run the application:
 
 ```env
-# Smart Contract
-NEXT_PUBLIC_MINT_CONTRACT_ADDRESS=your_contract_address
+NEXT_PUBLIC_WAGMI_PROJECT_ID=xxxxxxxxxxx
 
-# Backend API
-NEXT_PUBLIC_BACKEND_API_KEY=your_api_key
+NEXT_PUBLIC_BACKEND_API_KEY=xxxxxxxxxxxxxx
 
-# Optional Environment Variables
-NEXT_PUBLIC_NETWORK_ID=your_network_id
-NEXT_PUBLIC_RPC_URL=your_rpc_url
+# NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
+
+NEXT_PUBLIC_API_BASE_URL=https://backend-url.com/api
+
+NEXT_PUBLIC_MINT_CONTRACT_ADDRESS=0x743f49311a82fe72eb474c44e78da2a6e0ae951c
 ```
+
+## Project Structure
