@@ -98,6 +98,3 @@ NEXT_PUBLIC_BACKEND_API_KEY=your_api_key
 NEXT_PUBLIC_NETWORK_ID=your_network_id
 NEXT_PUBLIC_RPC_URL=your_rpc_url
 ```
-
-## Project Structure
-
