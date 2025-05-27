@@ -4,7 +4,7 @@ A modern web application for minting and managing NFTs, built with Next.js and T
 
 ## Live Demo
 
-- Frontend: [https://cytric-frontend-nftminting.vercel.app/](https://cytric-frontend-nftminting.vercel.app/)
+- Frontend: [https://daniel-cytric-nft-frontend.up.railway.app/](https://daniel-cytric-nft-frontend.up.railway.app/)
 - Backend API: [https://daniel-cytric-api.up.railway.app/](https://daniel-cytric-api.up.railway.app/)
 
 ## Backend Repository
@@ -59,24 +59,6 @@ The backend code for this project can be found here: [cytric-nftminiting-backend
   - 404: No NFTs found for the user wallet address
   - 401: Unauthorized - Invalid or missing API key
 
-## Features
-
-- Connect wallet functionality
-- NFT minting with metadata
-- User gallery view
-- Responsive design
-- Real-time transaction status updates
-- Success notifications
-
-## Tech Stack
-
-- Next.js
-- Tailwind CSS
-- Wagmi (Web3)
-- React Query
-- TypeScript
-- React Hook Form
-- Yup Validation
 
 ## Getting Started
 
@@ -95,21 +77,27 @@ The backend code for this project can be found here: [cytric-nftminiting-backend
    npm run dev
    ```
 
+## Video Walkthroughs
+
+- App Demo: [https://www.loom.com/share/5fb3270a11c24213b62259da6252e003?sid=36ccdf72-4149-41fb-a1b6-cf927351173f]
+- Frontend Codebase Walkthrough: [https://www.loom.com/share/a77533cf1d444b9d9405251635bd3395?sid=51180dd2-cb10-47c0-a3fe-c2029ba4cb84]
+- Backend Codebase Walkthrough: [https://www.loom.com/share/f29372f62f4d4f008528770ada3b9d7f?sid=75ec5631-2e05-41ce-add9-cb6c4abe562a]
+
+## Environment Variables
+
+The following environment variables are required to run the application:
+
+```env
+# Smart Contract
+NEXT_PUBLIC_MINT_CONTRACT_ADDRESS=your_contract_address
+
+# Backend API
+NEXT_PUBLIC_BACKEND_API_KEY=your_api_key
+
+# Optional Environment Variables
+NEXT_PUBLIC_NETWORK_ID=your_network_id
+NEXT_PUBLIC_RPC_URL=your_rpc_url
+```
+
 ## Project Structure
 
-```
-src/
-├── api/          # API integration
-├── components/   # React components
-├── hooks/        # Custom hooks
-├── lib/          # Utility functions
-└── utils/        # Helper functions
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
