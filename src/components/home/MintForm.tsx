@@ -7,6 +7,8 @@ import * as yup from 'yup';
 
 import assets from '../../../public/assets';
 import Image from 'next/image';
+import MintSuccessModal from '../shared/MintSuccessModal';
+import { useMintNFTHandler } from '@/hooks/useMintNFT';
 
 interface MintFormData {
     name: string;
@@ -38,6 +40,15 @@ const validationSchema = yup.object({
 
 export default function MintForm() {
     const [isLoading, setIsLoading] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [mintedNFT, setMintedNFT] = useState<{
+        name: string;
+        description: string;
+        imageUrl: string;
+        nftId: string;
+        contractAddress?: string;
+        hash?: string;
+    } | null>(null);
 
     // Initialize React Hook Form with Yup validation
     const {
@@ -55,6 +66,8 @@ export default function MintForm() {
         }
     });
 
+    const { mintNFT, loading, error } = useMintNFTHandler();
+
     const onSubmit = async (data: MintFormData) => {
         setIsLoading(true);
 
@@ -65,10 +78,21 @@ export default function MintForm() {
             // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 2000));
 
+            // Create mock NFT data for success modal
+            const mockNFTData = {
+                name: data.name,
+                description: data.description,
+                logoUrl: data.logoUrl,
+            };
+
+            const receipt = await mintNFT(mockNFTData);
+            console.log('NFT Minted:', receipt);
+
+            // setMintedNFT(receipt);
+            setShowSuccessModal(true);
+
             // Reset form after successful mint
             reset();
-
-            alert('NFT minted successfully!');
         } catch (error) {
             console.error('Error minting NFT:', error);
             alert('Error minting NFT. Please try again.');
@@ -158,6 +182,24 @@ export default function MintForm() {
                     </button>
                 </form>
             </div>
+
+            {/* Success Modal */}
+            {mintedNFT && (
+                <MintSuccessModal
+                    isOpen={showSuccessModal}
+                    onClose={() => setShowSuccessModal(false)}
+                    nftData={mintedNFT}
+                    onMintAnother={() => {
+                        setShowSuccessModal(false);
+                        setMintedNFT(null);
+                    }}
+                    onShare={() => {
+                        // TODO: Implement share functionality
+                        console.log('Sharing NFT:', mintedNFT);
+                        alert('Share functionality coming soon!');
+                    }}
+                />
+            )}
         </div>
     );
 }
