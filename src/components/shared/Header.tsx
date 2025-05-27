@@ -8,7 +8,7 @@ import { ConnectWalletButton } from './ConnectWalletButton';
 const Header: React.FC = () => {
     return (
         <header className="bg-black/80 p-4 ">
-            <div className='w-full md:w-5/6 mx-auto flex justify-between items-center'>
+            <div className='container mx-auto flex justify-between items-center'>
                 {/* Logo */}
                 <Link href={"/"} className="flex items-center">
                     <Image

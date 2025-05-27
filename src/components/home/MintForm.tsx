@@ -7,7 +7,7 @@ import * as yup from 'yup';
 
 import assets from '../../../public/assets';
 import Image from 'next/image';
-import MintSuccessModal from '../shared/MintSuccessModal';
+import MintSuccess from '../shared/MintSuccess';
 import { useMintNFTHandler } from '@/hooks/useMintNFT';
 import { useAccount } from 'wagmi';
 import toast from 'react-hot-toast';
@@ -42,10 +42,9 @@ const validationSchema = yup.object({
 
 export default function MintForm() {
     const [isLoading, setIsLoading] = useState(false);
-    const [showSuccessModal, setShowSuccessModal] = useState(true);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const { isConnected, address } = useAccount();
-
 
     const [mintedNFT, setMintedNFT] = useState<{
         tokenId: number;
@@ -117,23 +116,11 @@ export default function MintForm() {
 
     if (mintedNFT) {
         return (
-            <MintSuccessModal
-                isOpen={showSuccessModal}
-                onClose={() => setShowSuccessModal(false)}
-                nftData={{
-                    tokenId: 22,
-                    hash: `0x${"djddjdjd"}`,
-                    name: "djdjkdjkd",
-                    description: "dshdhdhjd",
-                    image: "https://robohash.org/your-custom-string.png",
-                    metadataUrl: "sjdjkdjkd",
-                    contractAddress: "0xdjjkdjkdjk"
-                }}
+            <MintSuccess
+                nftData={mintedNFT}
                 onMintAnother={() => {
-                    setShowSuccessModal(false);
                     setMintedNFT(null);
                 }}
-
             />
         )
     }
