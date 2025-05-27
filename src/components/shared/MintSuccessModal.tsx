@@ -1,65 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import assets from '../../../public/assets';
+import copy from 'copy-to-clipboard'
 
 interface MintSuccessModalProps {
     isOpen: boolean;
     onClose: () => void;
     nftData: {
+        tokenId: number;
+        hash: `0x${string}`;
         name: string;
         description: string;
-        imageUrl: string;
-        nftId: string;
-        contractAddress?: string;
+        image: string;
+        metadataUrl: string;
+        contractAddress: string
     };
     onMintAnother: () => void;
-    onShare?: () => void;
+
 }
 
-export default function MintSuccessModal({ 
-    isOpen, 
-    onClose, 
-    nftData, 
-    onMintAnother, 
-    onShare 
+export default function MintSuccessModal({
+    isOpen,
+    onClose,
+    nftData,
+    onMintAnother,
 }: MintSuccessModalProps) {
+
+
     if (!isOpen) return null;
 
+
+    const handleCopy = () => {
+
+        const success = copy(`${process.env.NEXT_PUBLIC_API_BASE_URL}/nft/getById/${nftData.tokenId}`)
+        if (success) {
+
+            alert('Link copied to clipboard!')
+        } else {
+            alert('Failed to copy link.')
+        }
+    }
+
+
+
     return (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-900 border border-gray-700 rounded-2xl max-w-md w-full mx-auto overflow-hidden">
+        <div className="w-[90%] max-w-md mx-auto">
+            <div className="bg-[#0F172A] border border-[#10B981] rounded-xl overflow-hidden">
                 {/* Header */}
-                <div className="p-6 text-center border-b border-gray-700">
+                <div className="p-6 text-center">
                     {/* Success Icon */}
-                    <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg 
-                            className="w-8 h-8 text-green-400" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                        >
-                            <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M5 13l4 4L19 7" 
-                            />
-                        </svg>
+                    <div className="w-12 h-12 bg-[#0D9488]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Image
+                            src={assets.check}
+                            alt="Success"
+                            width={24}
+                            height={24}
+                            className="w-6 h-6 text-[#10B981]"
+                        />
                     </div>
 
-                    <h2 className="text-2xl font-bold text-green-400 mb-2">
+                    <h2 className="text-xl font-bold text-[#10B981] mb-1">
                         NFT Minted Successfully!
                     </h2>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-[#9CA3AF] text-sm">
                         Your NFT has been created and added to your collection
                     </p>
                 </div>
 
                 {/* NFT Preview */}
-                <div className="p-6">
-                    <div className="bg-gray-800/50 rounded-xl overflow-hidden mb-4">
+                <div className="px-6 pb-4">
+                    <div className="bg-gradient-to-r from-primary-purple to-primary-pink rounded-lg overflow-hidden mb-4">
                         <div className="relative aspect-[16/9]">
                             <Image
-                                src={nftData.imageUrl}
+                                src={nftData.image}
                                 alt={nftData.name}
                                 fill
                                 className="object-cover"
@@ -71,110 +84,75 @@ export default function MintSuccessModal({
                     {/* NFT Details */}
                     <div className="space-y-3">
                         <div>
-                            <label className="text-xs text-gray-500 uppercase tracking-wide">
+                            <label className="text-sm text-[#9CA3AF] uppercase tracking-wide">
                                 NFT Name
                             </label>
-                            <p className="text-white font-semibold">
+                            <p className="text-white text-lg font-semibold">
                                 {nftData.name}
                             </p>
                         </div>
 
                         <div>
-                            <label className="text-xs text-gray-500 uppercase tracking-wide">
+                            <label className="text-sm text-[#9CA3AF] uppercase tracking-wide">
                                 Description
                             </label>
-                            <p className="text-gray-300 text-sm">
+                            <p className="text-[#D1D5DB]text-lg">
                                 {nftData.description}
                             </p>
                         </div>
 
                         <div>
-                            <label className="text-xs text-gray-500 uppercase tracking-wide">
+                            <label className="text-sm text-[#9CA3AF] uppercase tracking-wide">
                                 NFT ID
                             </label>
-                            <p className="text-blue-400 font-mono text-sm">
-                                #{nftData.nftId}
+                            <p className="text-[#8B5CF6] text-lg font-mono">
+                                #{nftData.tokenId}
                             </p>
                         </div>
 
-                        {nftData.contractAddress && (
-                            <div>
-                                <label className="text-xs text-gray-500 uppercase tracking-wide">
-                                    Contract
-                                </label>
-                                <p className="text-blue-400 font-mono text-xs break-all">
-                                    {nftData.contractAddress}
-                                </p>
-                            </div>
-                        )}
                     </div>
                 </div>
 
+
                 {/* Action Buttons */}
-                <div className="p-6 border-t border-gray-700 flex gap-3">
-                    {onShare && (
-                        <button
-                            onClick={onShare}
-                            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
-                        >
-                            <svg 
-                                className="w-4 h-4" 
-                                fill="none" 
-                                stroke="currentColor" 
-                                viewBox="0 0 24 24"
-                            >
-                                <path 
-                                    strokeLinecap="round" 
-                                    strokeLinejoin="round" 
-                                    strokeWidth={2} 
-                                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" 
-                                />
-                            </svg>
-                            Share
-                        </button>
-                    )}
+                <div className="p-4 flex gap-3">
 
                     <button
-                        onClick={onMintAnother}
-                        className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-semibold"
+                        onClick={handleCopy}
+                        className="text-sm flex-1 bg-[#1E293B] hover:bg-[#334155] text-white py-3 px-2 md:px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
                     >
-                        <svg 
-                            className="w-4 h-4" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                        >
-                            <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" 
-                            />
-                        </svg>
-                        Mint Another
-                    </button>
-                </div>
-
-                {/* Close Button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200"
-                >
-                    <svg 
-                        className="w-6 h-6" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                    >
-                        <path 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            strokeWidth={2} 
-                            d="M6 18L18 6M6 6l12 12" 
+                        <Image
+                            src={assets.share}
+                            alt="Share"
+                            width={16}
+                            height={16}
+                            className="w-4 h-4"
                         />
-                    </svg>
-                </button>
+                        Share
+                    </button>
+
+                    <button
+
+                        className="text-sm flex-1 bg-gradient-to-r from-primary-purple to-primary-pink hover:from-purple-600 hover:to-pink-600 text-white py-3 px-2 md:px-4 rounded-lg flex items-center justify-center gap-1 font-semibold"
+                    >
+                        <Image
+                            src={assets.whitcube}
+                            alt="Mint Another"
+                            width={16}
+                            height={16}
+                            className="w-4 h-4"
+                        />
+                        <span>  Mint Another</span>
+                    </button>
+
+
+
+
+                </div>
             </div>
         </div>
     );
 }
+
+
+

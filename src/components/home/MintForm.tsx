@@ -42,18 +42,19 @@ const validationSchema = yup.object({
 
 export default function MintForm() {
     const [isLoading, setIsLoading] = useState(false);
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(true);
 
     const { isConnected, address } = useAccount();
 
 
     const [mintedNFT, setMintedNFT] = useState<{
+        tokenId: number;
+        hash: `0x${string}`;
         name: string;
         description: string;
-        imageUrl: string;
-        nftId: string;
-        contractAddress?: string;
-        hash?: string;
+        image: string;
+        metadataUrl: string;
+        contractAddress: string
     } | null>(null);
 
     // Initialize React Hook Form with Yup validation
@@ -101,7 +102,7 @@ export default function MintForm() {
             const receipt = await mintNFT(mockNFTData);
             console.log('NFT Minted:', receipt);
 
-            // setMintedNFT(receipt);
+            setMintedNFT({ ...receipt, contractAddress: `${process.env.NEXT_PUBLIC_MINT_CONTRACT_ADDRESS}` });
             setShowSuccessModal(true);
 
             // Reset form after successful mint
@@ -114,6 +115,28 @@ export default function MintForm() {
         }
     };
 
+    if (mintedNFT) {
+        return (
+            <MintSuccessModal
+                isOpen={showSuccessModal}
+                onClose={() => setShowSuccessModal(false)}
+                nftData={{
+                    tokenId: 22,
+                    hash: `0x${"djddjdjd"}`,
+                    name: "djdjkdjkd",
+                    description: "dshdhdhjd",
+                    image: "https://robohash.org/your-custom-string.png",
+                    metadataUrl: "sjdjkdjkd",
+                    contractAddress: "0xdjjkdjkdjk"
+                }}
+                onMintAnother={() => {
+                    setShowSuccessModal(false);
+                    setMintedNFT(null);
+                }}
+
+            />
+        )
+    }
     return (
         <div className="w-[90%] max-w-lg mx-auto">
             <div className="bg-[#11182780] backdrop-blur-sm border border-[#1F2937] rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl">
@@ -195,24 +218,6 @@ export default function MintForm() {
                     </button>
                 </form>
             </div>
-
-            {/* Success Modal */}
-            {mintedNFT && (
-                <MintSuccessModal
-                    isOpen={showSuccessModal}
-                    onClose={() => setShowSuccessModal(false)}
-                    nftData={mintedNFT}
-                    onMintAnother={() => {
-                        setShowSuccessModal(false);
-                        setMintedNFT(null);
-                    }}
-                    onShare={() => {
-                        // TODO: Implement share functionality
-                        console.log('Sharing NFT:', mintedNFT);
-                        alert('Share functionality coming soon!');
-                    }}
-                />
-            )}
         </div>
     );
 }
