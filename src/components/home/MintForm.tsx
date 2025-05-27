@@ -33,11 +33,6 @@ const validationSchema = yup.object({
     logoUrl: yup
         .string()
         .required('Image URL is required')
-        .url('Please enter a valid URL')
-        .matches(
-            /\.(jpg|jpeg|png|gif|webp|svg)$/i,
-            'Image URL must end with a valid image extension (jpg, jpeg, png, gif, webp, svg)'
-        )
 });
 
 export default function MintForm() {
