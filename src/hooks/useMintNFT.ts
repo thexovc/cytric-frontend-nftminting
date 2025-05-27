@@ -5,20 +5,32 @@ import {
   mintingABI,
   MINT_CONTRACT_ADDRESS,
 } from "@/lib/contracts/config";
-import { generateTokenId, storeMetadata } from "@/utils/nft";
+import { generateTokenId } from "@/utils/nft";
+import { AxiosError } from "axios";
+import { useStoreNFTMetadata } from "@/api/nft/nft.query";
 
 export function useMintNFTHandler() {
   const [hash, setHash] = useState<`0x${string}` | undefined>();
   const [isConfirming, setIsConfirming] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const { writeContractAsync } = useWriteContract();
 
-  const mintNFT = async (metadata: {
-    name: string;
-    description: string;
-    logoUrl: string;
-  }) => {
+  const {
+    mutateAsync: storeMetadata,
+    isPending: isStoring,
+    isError: storeMetadataError,
+  } = useStoreNFTMetadata(
+    (error: AxiosError) => {
+      console.error("Metadata storage failed:", error);
+    },
+    (data) => {
+      console.log("Metadata stored:", data.data);
+    }
+  );
+
+  const mintNFT = async (metadata: StoreMetadataRequest) => {
     setError(null);
     setIsConfirming(true);
     setIsConfirmed(false);
@@ -43,10 +55,10 @@ export function useMintNFTHandler() {
         });
       }
 
-      // 2. Use temporary metadata URL (can be placeholder or static JSON endpoint)
+      // 2. Use temporary metadata URL
       const placeholderUrl = `https://yourdomain.com/metadata/${tokenId}?status=pending`;
 
-      // 3. Mint NFT
+      // 3. Mint NFT on-chain
       const txHash = await writeContractAsync({
         address: MINT_CONTRACT_ADDRESS,
         abi: mintingABI,
@@ -56,7 +68,7 @@ export function useMintNFTHandler() {
 
       setHash(txHash);
 
-      // 4. Wait for transaction to be mined
+      // 4. Wait for transaction confirmation
       const receipt = await publicClient.waitForTransactionReceipt({
         hash: txHash,
       });
@@ -65,15 +77,13 @@ export function useMintNFTHandler() {
 
       setIsConfirmed(true);
 
-      // 5. Store metadata in your backend
-      const { metadataUrl } = await storeMetadata({
+      // 5. Store metadata in backend
+      const response = await storeMetadata({
         name: metadata.name,
         description: metadata.description,
         logoUrl: metadata.logoUrl,
+        userWalletAddress: metadata.userWalletAddress,
       });
-
-      // Optional: Tell backend to update metadata if needed
-      // Or add support to your contract to update it later if it's mutable
 
       return {
         tokenId,
@@ -81,7 +91,7 @@ export function useMintNFTHandler() {
         name: metadata.name,
         description: metadata.description,
         imageUrl: metadata.logoUrl,
-        metadataUrl,
+        metadataUrl: response.data.metadataUrl,
       };
     } catch (err: any) {
       setError(err.message || "Unexpected error");
@@ -93,9 +103,9 @@ export function useMintNFTHandler() {
 
   return {
     mintNFT,
-    loading: isConfirming,
+    loading: isConfirming || isStoring,
     isConfirmed,
-    error,
+    error: error || (storeMetadataError ? "Metadata store failed" : null),
     hash,
   };
 }

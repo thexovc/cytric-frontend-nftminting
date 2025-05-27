@@ -7,6 +7,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { WagmiProvider } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 import DappProvider from "@/providers/DappProvider";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,8 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${geistSans.variable} antialiased`}>
           {children}
+
+          <Toaster position="top-right" />
         </body>
       </html>
     </DappProvider>

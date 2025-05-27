@@ -9,6 +9,8 @@ import assets from '../../../public/assets';
 import Image from 'next/image';
 import MintSuccessModal from '../shared/MintSuccessModal';
 import { useMintNFTHandler } from '@/hooks/useMintNFT';
+import { useAccount } from 'wagmi';
+import toast from 'react-hot-toast';
 
 interface MintFormData {
     name: string;
@@ -41,6 +43,10 @@ const validationSchema = yup.object({
 export default function MintForm() {
     const [isLoading, setIsLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+    const { isConnected, address } = useAccount();
+
+
     const [mintedNFT, setMintedNFT] = useState<{
         name: string;
         description: string;
@@ -66,10 +72,16 @@ export default function MintForm() {
         }
     });
 
-    const { mintNFT, loading, error } = useMintNFTHandler();
+    const { mintNFT } = useMintNFTHandler();
 
     const onSubmit = async (data: MintFormData) => {
         setIsLoading(true);
+
+        if (!isConnected) {
+            toast.error("connect wallet to continue");
+            setIsLoading(false)
+            return
+        }
 
         try {
             // TODO: Implement actual minting logic here
@@ -83,6 +95,7 @@ export default function MintForm() {
                 name: data.name,
                 description: data.description,
                 logoUrl: data.logoUrl,
+                userWalletAddress: String(address)
             };
 
             const receipt = await mintNFT(mockNFTData);
@@ -102,7 +115,7 @@ export default function MintForm() {
     };
 
     return (
-        <div className="w-[90%] max-w-xl mx-auto">
+        <div className="w-[90%] max-w-lg mx-auto">
             <div className="bg-[#11182780] backdrop-blur-sm border border-[#1F2937] rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl">
                 <h2 className="text-2xl font-bold text-white mb-6 text-center">
                     Mint Your NFT
