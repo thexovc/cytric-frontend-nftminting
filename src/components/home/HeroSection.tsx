@@ -11,7 +11,7 @@ export default function HeroSection() {
         <div className="relative z-10 container mx-auto px-4 py-10">
             <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-20">
                 {/* Hero content - centered */}
-                <div className="text-center space-y-8 max-w-4xl">
+                <div className="text-center space-y-8 md:space-y-10 max-w-4xl">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                         Discover & Collect{' '}
                         <span>
